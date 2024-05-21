@@ -8,37 +8,22 @@ import (
 )
 
 func main() {
-	makeExcel()
+	fmt.Println("Starting Application")
+	var user string
 
+	fmt.Print("User: ")
+	fmt.Scan(&user)
+	loadUser(user)
 }
 
-func makeExcel() {
-	file := excelize.NewFile()
-
-	headers := []string{"ID", "Name", "Age"}
-	for i, header := range headers {
-		file.SetCellValue("Sheet1", fmt.Sprintf("%s%d",
-			string(rune(65+i)), 1), header)
-	}
-
-	data := [][]interface{}{
-		{1, "John", 30},
-		{2, "Alex", 20},
-		{3, "Bob", 40},
-	}
-
-	for i, row := range data {
-		fmt.Println(i, row)
-		dataRow := i + 2
-		for j, col := range row {
-			file.SetCellValue("Sheet1", fmt.Sprintf("%s%d",
-				string(rune(65+j)), dataRow), col)
-		}
-	}
-
-	fmt.Println(data)
-
-	if err := file.SaveAs("students.xlsx"); err != nil {
+func loadUser(user string) {
+	file, err := excelize.OpenFile(fmt.Sprintf("./Ledgers/%v_Master.xlsx", user))
+	// file, err := excelize.OpenFile(fmt.Sprintf("Andre_Master.xlsx"))
+	if err != nil {
 		log.Fatal(err)
 	}
+
+	account_number, _ := file.GetCellValue("Sheet1", "A2")
+
+	fmt.Printf("loaded user %v, with account number %v", user, account_number)
 }
