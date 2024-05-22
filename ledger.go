@@ -18,5 +18,3 @@ type journal_entry struct {
 	credit      float64
 	debit       float64
 }
-
-test commit
