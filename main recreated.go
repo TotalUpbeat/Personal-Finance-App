@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/xuri/excelize/v2"
@@ -14,7 +13,6 @@ import (
 func main() {
 	fmt.Println("Starting Application")
 	var user string
-	var action int64
 	reader := bufio.NewReader(os.Stdin)
 
 	user, _ = getInput("User: ", reader)
@@ -22,18 +20,7 @@ func main() {
 
 	fmt.Println(user_master_file)
 
-	for {
-		fmt.Printf("What would you like to do, %v?\n", user)
-		fmt.Println("\t1. Enter Expense")
-		fmt.Println("\t2. View Accounts")
-		fmt.Println("\t3. Quit")
-		actionString, _ := getInput("", reader)
-		action, _ = strconv.ParseInt(actionString, 0, 8)
-		if action == 3 {
-			fmt.Printf("Thank you, %v", user)
-			break
-		}
-	}
+	printPrompt(user, reader)
 
 }
 
@@ -42,6 +29,25 @@ func getInput(prompt string, reader *bufio.Reader) (string, error) {
 	input, err := reader.ReadString('\n')
 
 	return strings.TrimSpace(input), err
+}
+
+func printPrompt(user string, reader *bufio.Reader) {
+	var action string
+	action, _ = getInput(fmt.Sprintf(
+		"What would you like to do, %v? \n"+
+			"\t1. Enter Expense\n"+
+			"\t2. View Accounts\n"+
+			"\t3. Quit\n", user), reader)
+	switch action {
+	case "1":
+		printPrompt(user, reader)
+	case "2":
+		printPrompt(user, reader)
+	case "3":
+		break
+
+	}
+
 }
 
 func loadUser(user string) *excelize.File {
