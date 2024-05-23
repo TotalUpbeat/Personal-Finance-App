@@ -4,15 +4,15 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-type ledger struct {
+type Ledger struct {
 	ledger_name     string
 	ledger_file     *excelize.File
 	start_amount    float64
 	end_amount      float64
-	journal_entries *journal_entry
+	journal_entries map[string][]Journal_Entry
 }
 
-type journal_entry struct {
+type Journal_Entry struct {
 	date        string
 	description string
 	credit      float64
