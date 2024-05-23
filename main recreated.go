@@ -12,7 +12,7 @@ import (
 
 var reader *bufio.Reader
 
-// var curr_ledger Ledger
+var curr_ledger Ledger
 var account_number string
 var user_master_file *excelize.File
 
@@ -89,5 +89,6 @@ func loadLedgers() {
 	}
 
 	fmt.Println(ledger_names)
+	fmt.Println(curr_ledger)
 
 }
